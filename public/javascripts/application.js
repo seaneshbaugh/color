@@ -18,7 +18,11 @@ function setColor(hexCode) {
 
     document.getElementById("color").style.color = "rgb(" + textColor.r + ", " + textColor.g + ", " + textColor.b + ")";
 
-    document.getElementById("color").textContent = toRGBHex(backgroundColor.r, backgroundColor.g, backgroundColor.b);
+    hexCode = toRGBHex(backgroundColor.r, backgroundColor.g, backgroundColor.b);
+
+    document.getElementById("color").textContent = hexCode;
+
+    document.title = hexCode + " - Color";
   } else {
     window.location.hash = "#ffffff";
   }
