@@ -22,6 +22,8 @@ function setColor(hexCode) {
 
     document.getElementById("color").textContent = hexCode;
 
+    setFavicon(backgroundColor.r, backgroundColor.g, backgroundColor.b);
+
     document.title = hexCode + " - Color";
   } else {
     window.location.hash = "#ffffff";
@@ -82,6 +84,38 @@ function pad(original, length, padString) {
 
 function toRGBHex(r, g, b) {
   return "#" + pad(r.toString(16), 2, "0") + pad(g.toString(16), 2, "0") + pad(b.toString(16), 2, "0");
+}
+
+function setFavicon(r, g, b) {
+  var link, canvas, context;
+
+  link = document.querySelector("link[rel~='icon']");
+
+  if (!link) {
+    link = document.createElement("link");
+
+    link.setAttribute("rel", "icon");
+
+    document.head.appendChild(link);
+  }
+
+  canvas = document.createElement("canvas");
+
+  canvas.width  = 16;
+
+  canvas.height = 16;
+
+  context = canvas.getContext("2d");
+
+  context.fillStyle = "rgb(" + r + ", " + g + ", " + b + ")";
+
+  context.fillRect(0, 0, 16, 16);
+
+  context.fill();
+
+  link.type = "image/x-icon";
+
+  link.href = canvas.toDataURL();
 }
 
 function onReady(completed) {
