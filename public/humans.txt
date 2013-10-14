@@ -1,0 +1,16 @@
+/* TEAM */
+  Developer: Sean Eshbaugh
+  Site: http://seaneshbaugh.com/
+  Twitter: http://twitter.com/bungoman
+  GitHub: https://github.com/seaneshbaugh
+  Contact: sean (at) seaneshbaugh.com
+
+/* SITE */
+  Created On: 2013/10/14
+  Last Updated: 2013/10/14
+  Language: English
+  Doctype: HTML5
+  Lovingly Made In: TextMate 1.5.11 (1635)
+  Lovingly Made On: OSX 10.8.4 Mountain Lion
+  Lovingly Made With: HTML5, CSS3, JavaScript
+  View the source at: https://github.com/seaneshbaugh/color
