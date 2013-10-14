@@ -1,7 +1,15 @@
 onReady(function() {
+  setColor(window.location.hash);
+
+  window.addEventListener("hashchange", function() {
+    setColor(window.location.hash);
+  }, false);
+});
+
+function setColor(hexCode) {
   var backgroundColor, textColor;
 
-  backgroundColor = parseColor(window.location.hash);
+  backgroundColor = parseColor(hexCode);
 
   if (backgroundColor) {
     textColor = contrastColor(backgroundColor.r, backgroundColor.g, backgroundColor.b);
@@ -11,8 +19,10 @@ onReady(function() {
     document.getElementById("color").style.color = "rgb(" + textColor.r + ", " + textColor.g + ", " + textColor.b + ")";
 
     document.getElementById("color").textContent = toRGBHex(backgroundColor.r, backgroundColor.g, backgroundColor.b);
+  } else {
+    window.location.hash = "#ffffff";
   }
-});
+}
 
 function parseColor(hexCode) {
   var color, r, g, b;
