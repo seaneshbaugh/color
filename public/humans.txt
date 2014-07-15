@@ -7,10 +7,10 @@
 
 /* SITE */
   Created On: 2013/10/14
-  Last Updated: 2013/10/14
+  Last Updated: 2014/07/14
   Language: English
   Doctype: HTML5
-  Lovingly Made In: TextMate 1.5.11 (1635)
-  Lovingly Made On: OSX 10.8.4 Mountain Lion
+  Lovingly Made In: Atom 0.106.0
+  Lovingly Made On: OSX 10.9.4 Mavericks
   Lovingly Made With: HTML5, CSS3, JavaScript
   View the source at: https://github.com/seaneshbaugh/color

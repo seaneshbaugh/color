@@ -7,18 +7,22 @@ html, body {
   width: 100%;
 }
 
-#color {
+.color-text {
   cursor: default;
   font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif;
-  font-size: 72px;
+  font-size: 36px;
   letter-spacing: 10px;
   text-align: center;
 }
 
-#color::selection {
+.color-text::selection {
   background: transparent;
 }
 
-#color::-moz-selection {
+.color-text::-moz-selection {
   background: transparent;
+}
+
+#rgb-hex {
+  font-size: 72px;
 }
