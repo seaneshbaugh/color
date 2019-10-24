@@ -1,0 +1,31 @@
+{
+  "name": "color",
+  "private": true,
+  "scripts": {
+    "build:dev": "rm -rf dist && webpack --mode development --config webpack.server.config.js && webpack --mode development --config webpack.dev.config.js",
+    "build:prod": "rm -rf dist && webpack --mode production --config webpack.prod.config.js",
+    "start": "yarn run build:dev && node ./dist/server.js"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+    "@babel/core": "7.6.4",
+    "@babel/preset-env": "7.6.3",
+    "babel-loader": "8.0.6",
+    "css-loader": "3.2.0",
+    "express": "4.17.1",
+    "file-loader": "4.2.0",
+    "html-loader": "0.5.5",
+    "html-webpack-plugin": "3.2.0",
+    "mini-css-extract-plugin": "0.8.0",
+    "node-sass": "4.13.0",
+    "optimize-css-assets-webpack-plugin": "5.0.3",
+    "sass-loader": "8.0.0",
+    "style-loader": "1.0.0",
+    "uglifyjs-webpack-plugin": "2.2.0",
+    "webpack": "4.41.2",
+    "webpack-cli": "3.3.9",
+    "webpack-dev-middleware": "3.7.2",
+    "webpack-node-externals": "1.7.2"
+  }
+}

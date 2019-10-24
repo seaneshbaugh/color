@@ -1,0 +1,16 @@
+version: "3"
+
+services:
+  color:
+    build:
+      context: "."
+      dockerfile: "./Dockerfile"
+    volumes:
+      - ".:/color"
+      - "node_modules:/color/node_modules"
+    ports:
+      - "8081:8080"
+    command: "yarn run start"
+
+volumes:
+  node_modules:
