@@ -28,7 +28,7 @@ function setColor(hexCode) {
 
     document.getElementById("rgb").textContent = toRGB(backgroundColor.r, backgroundColor.g, backgroundColor.b);
 
-    document.getElementById("rgb-percent").textContent = toRGBPercent(backgroundColor.r, backgroundColor.g, backgroundColor.b);;
+    document.getElementById("rgb-percent").textContent = toRGBPercent(backgroundColor.r, backgroundColor.g, backgroundColor.b);
 
     document.getElementById("hsl").textContent = toHSL(backgroundColor.r, backgroundColor.g, backgroundColor.b);
 
@@ -127,7 +127,7 @@ function toHSL(r, g, b) {
 
   l = (max + min) / 2;
 
-  if (max === min){
+  if (max === min) {
     h = 0;
 
     s = 0;
@@ -141,9 +141,9 @@ function toHSL(r, g, b) {
     }
 
     switch(max) {
-      case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-      case g: h = (b - r) / d + 2; break;
-      case b: h = (r - g) / d + 4; break;
+    case r: h = (g - b) / d + (g < b ? 6 : 0); break; // eslint-disable-line no-ternary
+    case g: h = (b - r) / d + 2; break;
+    case b: h = (r - g) / d + 4; break;
     }
 
     h /= 6;
@@ -156,7 +156,7 @@ function toName(r, g, b) {
   return {
     "#f0f8ff" : "aliceblue",
     "#faebd7" : "antiquewhite",
-    "#00ffff" : "aqua",
+    "#00ffff" : "aqua / cyan",
     "#7fffd4" : "aquamarine",
     "#f0ffff" : "azure",
     "#f5f5dc" : "beige",
@@ -174,13 +174,11 @@ function toName(r, g, b) {
     "#6495ed" : "cornflowerblue",
     "#fff8dc" : "cornsilk",
     "#dc143c" : "crimson",
-    "#00ffff" : "cyan",
     "#00008b" : "darkblue",
     "#008b8b" : "darkcyan",
     "#b8860b" : "darkgoldenrod",
-    "#a9a9a9" : "darkgray",
+    "#a9a9a9" : "darkgray / darkgrey",
     "#006400" : "darkgreen",
-    "#a9a9a9" : "darkgrey",
     "#bdb76b" : "darkkhaki",
     "#8b008b" : "darkmagenta",
     "#556b2f" : "darkolivegreen",
@@ -190,27 +188,24 @@ function toName(r, g, b) {
     "#e9967a" : "darksalmon",
     "#8fbc8f" : "darkseagreen",
     "#483d8b" : "darkslateblue",
-    "#2f4f4f" : "darkslategray",
-    "#2f4f4f" : "darkslategrey",
+    "#2f4f4f" : "darkslategray / darkslategrey",
     "#00ced1" : "darkturquoise",
     "#9400d3" : "darkviolet",
     "#ff1493" : "deeppink",
     "#00bfff" : "deepskyblue",
-    "#696969" : "dimgray",
-    "#696969" : "dimgrey",
+    "#696969" : "dimgray / dimgrey",
     "#1e90ff" : "dodgerblue",
     "#b22222" : "firebrick",
     "#fffaf0" : "floralwhite",
     "#228b22" : "forestgreen",
-    "#ff00ff" : "fuchsia",
+    "#ff00ff" : "fuchsia / magenta",
     "#dcdcdc" : "gainsboro",
     "#f8f8ff" : "ghostwhite",
     "#ffd700" : "gold",
     "#daa520" : "goldenrod",
-    "#808080" : "gray",
+    "#808080" : "gray / grey",
     "#008000" : "green",
     "#adff2f" : "greenyellow",
-    "#808080" : "grey",
     "#f0fff0" : "honeydew",
     "#ff69b4" : "hotpink",
     "#cd5c5c" : "indianred",
@@ -225,21 +220,19 @@ function toName(r, g, b) {
     "#f08080" : "lightcoral",
     "#e0ffff" : "lightcyan",
     "#fafad2" : "lightgoldenrodyellow",
-    "#d3d3d3" : "lightgray",
+    "#d3d3d3" : "lightgray / lightgrey",
     "#90ee90" : "lightgreen",
-    "#d3d3d3" : "lightgrey",
     "#ffb6c1" : "lightpink",
     "#ffa07a" : "lightsalmon",
     "#20b2aa" : "lightseagreen",
     "#87cefa" : "lightskyblue",
-    "#778899" : "lightslategray",
-    "#778899" : "lightslategrey",
+    "#778899" : "lightslategray / lightslategrey",
     "#b0c4de" : "lightsteelblue",
     "#ffffe0" : "lightyellow",
     "#00ff00" : "lime",
     "#32cd32" : "limegreen",
     "#faf0e6" : "linen",
-    "#ff00ff" : "magenta",
+
     "#800000" : "maroon",
     "#66cdaa" : "mediumaquamarine",
     "#0000cd" : "mediumblue",
@@ -285,8 +278,7 @@ function toName(r, g, b) {
     "#c0c0c0" : "silver",
     "#87ceeb" : "skyblue",
     "#6a5acd" : "slateblue",
-    "#708090" : "slategray",
-    "#708090" : "slategrey",
+    "#708090" : "slategray / slategrey",
     "#fffafa" : "snow",
     "#00ff7f" : "springgreen",
     "#4682b4" : "steelblue",
