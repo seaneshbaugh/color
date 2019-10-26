@@ -44,7 +44,13 @@ module.exports = {
         test: /\.html$/,
         use: [
           {
-            loader: "html-loader"
+            loader: "html-loader",
+            options: {
+              attrs: [
+                "img:src",
+                "link:href"
+              ]
+            }
           }
         ]
       },
@@ -57,8 +63,12 @@ module.exports = {
         ]
       },
       {
-       test: /\.(png|svg|jpg|gif)$/,
-       use: ["file-loader"]
+       test: /\.(png|svg|jpe?g|gif)$/,
+        use: [
+          {
+            loader: "file-loader"
+          }
+        ]
       },
       {
         test: /\.txt$/,
@@ -76,6 +86,7 @@ module.exports = {
   plugins: [
     new HtmlWebPackPlugin({
       template: "./src/html/index.html",
+      favicon: "./src/images/favicon.ico",
       filename: "./index.html",
       excludeChunks: ["server"]
     }),
