@@ -15,3 +15,7 @@ cd into the porject directory.
 Start the Docker container.
 
     $ docker-compose up -d --build
+
+## Running Tests
+
+    $ docker-compose run --rm color yarn test

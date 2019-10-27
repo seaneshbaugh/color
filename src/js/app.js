@@ -1,4 +1,4 @@
-import { colorNames } from "./color-names.js";
+import { colorNames } from "./color-names";
 
 onReady(function() {
   setColor(window.location.hash);
