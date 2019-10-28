@@ -27,19 +27,19 @@ const setColor = (hexCode) => {
     colorText.style.color = textColor;
   });
 
-  document.getElementById("rgb-hex").textContent = hexCode;
+  document.querySelector(".rgb-hex").textContent = hexCode;
 
-  document.getElementById("rgb").textContent = toRGB(backgroundColor.r, backgroundColor.g, backgroundColor.b);
+  document.querySelector(".rgb").textContent = toRGB(backgroundColor.r, backgroundColor.g, backgroundColor.b);
 
-  document.getElementById("rgb-percent").textContent = toRGBPercent(backgroundColor.r, backgroundColor.g, backgroundColor.b);
+  document.querySelector(".rgb-percent").textContent = toRGBPercent(backgroundColor.r, backgroundColor.g, backgroundColor.b);
 
-  document.getElementById("hsl").textContent = toHSL(backgroundColor.r, backgroundColor.g, backgroundColor.b);
+  document.querySelector(".hsl").textContent = toHSL(backgroundColor.r, backgroundColor.g, backgroundColor.b);
 
-  document.getElementById("name").textContent = toName(backgroundColor.r, backgroundColor.g, backgroundColor.b) || "";
+  document.querySelector(".name").textContent = toName(backgroundColor.r, backgroundColor.g, backgroundColor.b) || "";
 
   setFavicon(backgroundColor.r, backgroundColor.g, backgroundColor.b);
 
-  document.title = hexCode + " - Color";
+  document.title = `${hexCode} - Color`;
 };
 
 const setFavicon = (r, g, b) => {
