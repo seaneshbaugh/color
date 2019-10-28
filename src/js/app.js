@@ -1,56 +1,48 @@
 import { contrastColor, parseRGBHex, toHSL, toName, toRGB, toRGBHex, toRGBPercent } from "./colors";
 
-onReady(function() {
-  setColor(window.location.hash);
-
-  window.addEventListener("hashchange", function() {
-    setColor(window.location.hash);
-  }, false);
-});
-
-function setColor(hexCode) {
-  var backgroundColor, textColor, colorTexts, colorName;
-
-  backgroundColor = parseRGBHex(hexCode);
-
-  if (backgroundColor) {
-    document.getElementsByTagName("body")[0].style.background = hexCode;
-
-    textColor = contrastColor(backgroundColor.r, backgroundColor.g, backgroundColor.b);
-
-    textColor = toRGBHex(textColor.r, textColor.g, textColor.b);
-
-    colorTexts = document.querySelectorAll(".color-text");
-
-    for (var i = 0; i < colorTexts.length; ++i) {
-      colorTexts[i].style.color = textColor;
-    }
-
-    document.getElementById("rgb-hex").textContent = hexCode;
-
-    document.getElementById("rgb").textContent = toRGB(backgroundColor.r, backgroundColor.g, backgroundColor.b);
-
-    document.getElementById("rgb-percent").textContent = toRGBPercent(backgroundColor.r, backgroundColor.g, backgroundColor.b);
-
-    document.getElementById("hsl").textContent = toHSL(backgroundColor.r, backgroundColor.g, backgroundColor.b);
-
-    colorName = toName(backgroundColor.r, backgroundColor.g, backgroundColor.b);
-
-    if (colorName) {
-      document.getElementById("name").textContent = colorName;
-    } else {
-      document.getElementById("name").textContent = "";
-    }
-
-    setFavicon(backgroundColor.r, backgroundColor.g, backgroundColor.b);
-
-    document.title = hexCode + " - Color";
+const onReady = (completed) => {
+  if (document.readyState === "complete") {
+    setTimeout(completed);
   } else {
-    window.location.hash = "#ffffff";
+    document.addEventListener("DOMContentLoaded", completed, false);
   }
-}
+};
 
-function setFavicon(r, g, b) {
+const setColor = (hexCode) => {
+  const backgroundColor = parseRGBHex(hexCode);
+
+  if (!backgroundColor) {
+    window.location.hash = "#ffffff";
+
+    return;
+  }
+
+  document.querySelector("body").style.background = hexCode;
+
+  let textColor = contrastColor(backgroundColor.r, backgroundColor.g, backgroundColor.b);
+
+  textColor = toRGBHex(textColor.r, textColor.g, textColor.b);
+
+  document.querySelectorAll(".color-text").forEach((colorText) => {
+    colorText.style.color = textColor;
+  });
+
+  document.getElementById("rgb-hex").textContent = hexCode;
+
+  document.getElementById("rgb").textContent = toRGB(backgroundColor.r, backgroundColor.g, backgroundColor.b);
+
+  document.getElementById("rgb-percent").textContent = toRGBPercent(backgroundColor.r, backgroundColor.g, backgroundColor.b);
+
+  document.getElementById("hsl").textContent = toHSL(backgroundColor.r, backgroundColor.g, backgroundColor.b);
+
+  document.getElementById("name").textContent = toName(backgroundColor.r, backgroundColor.g, backgroundColor.b) || "";
+
+  setFavicon(backgroundColor.r, backgroundColor.g, backgroundColor.b);
+
+  document.title = hexCode + " - Color";
+};
+
+const setFavicon = (r, g, b) => {
   var link, canvas, context;
 
   link = document.querySelector("link[rel~='icon']");
@@ -80,12 +72,12 @@ function setFavicon(r, g, b) {
   link.type = "image/x-icon";
 
   link.href = canvas.toDataURL();
-}
+};
 
-function onReady(completed) {
-  if (document.readyState === "complete") {
-    setTimeout(completed);
-  } else {
-    document.addEventListener("DOMContentLoaded", completed, false);
-  }
-}
+onReady(function() {
+  setColor(window.location.hash);
+
+  window.addEventListener("hashchange", function() {
+    setColor(window.location.hash);
+  }, false);
+});
