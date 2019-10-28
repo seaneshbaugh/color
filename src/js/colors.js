@@ -1,3 +1,5 @@
+import pad from "./pad";
+
 const colorNames = {
   "#f0f8ff": "aliceblue",
   "#faebd7": "antiquewhite",
@@ -163,7 +165,68 @@ const parseRGBHex = (hexCode) => {
   return { r: r, g: g, b: b };
 };
 
-module.exports = {
+const toHSL = (r, g, b) => {
+  var max, min, h, s, l, d;
+
+  r /= 255;
+
+  g /= 255;
+
+  b /= 255;
+
+  max = Math.max(r, g, b);
+
+  min = Math.min(r, g, b);
+
+  l = (max + min) / 2;
+
+  if (max === min) {
+    h = 0;
+
+    s = 0;
+  } else {
+    d = max - min;
+
+    if (l > 0.5) {
+      s = d / (2 - max - min);
+    } else {
+      s = d / (max + min);
+    }
+
+    switch(max) {
+    case r: h = (g - b) / d + (g < b ? 6 : 0); break; // eslint-disable-line no-ternary
+    case g: h = (b - r) / d + 2; break;
+    case b: h = (r - g) / d + 4; break;
+    }
+
+    h /= 6;
+  }
+
+  return "hsl(" + (h * 360.0).toFixed(2) + ", " + (s * 100.0).toFixed(2) + "%, " + (l * 100.0).toFixed(2) + "%)";
+};
+
+const toName = (r, g, b) => {
+  return colorNames[toRGBHex(r, g, b)];
+};
+
+const toRGB = (r, g, b) => {
+  return "rgb(" + r.toString() + ", " + g.toString() + ", " + b.toString() + ")";
+};
+
+const toRGBHex = (r, g, b) => {
+  return "#" + pad(r.toString(16), 2, "0") + pad(g.toString(16), 2, "0") + pad(b.toString(16), 2, "0");
+};
+
+const toRGBPercent = (r, g, b) => {
+  return "rgb(" + ((r / 255.0) * 100.0).toFixed(2) + "%, " + ((g / 255.0) * 100.0).toFixed(2) + "%, " + ((b / 255.0) * 100.0).toFixed(2) + "%)";
+};
+
+export {
   colorNames,
-  parseRGBHex
+  parseRGBHex,
+  toHSL,
+  toName,
+  toRGB,
+  toRGBHex,
+  toRGBPercent
 };

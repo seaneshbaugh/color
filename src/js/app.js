@@ -1,4 +1,4 @@
-import { colorNames, parseRGBHex } from "./colors";
+import { parseRGBHex, toHSL, toName, toRGB, toRGBHex, toRGBPercent } from "./colors";
 
 onReady(function() {
   setColor(window.location.hash);
@@ -56,84 +56,6 @@ function contrastColor(r, g, b) {
   } else {
     return {r: 255, g: 255, b: 255};
   }
-}
-
-function pad(original, length, padString) {
-  var padding;
-
-  padding = "";
-
-  if (original.length < length) {
-    if (!padString) {
-      padString = " ";
-    } else {
-      padString += "";
-    }
-
-    while (padding.length < length - original.length) {
-      padding += padString;
-    }
-
-    padding = padding.slice(0, length - original.length);
-  }
-
-  return padding + original;
-}
-
-function toRGBHex(r, g, b) {
-  return "#" + pad(r.toString(16), 2, "0") + pad(g.toString(16), 2, "0") + pad(b.toString(16), 2, "0");
-}
-
-function toRGB(r, g, b) {
-  return "rgb(" + r.toString() + ", " + g.toString() + ", " + b.toString() + ")";
-}
-
-function toRGBPercent(r, g, b) {
-  return "rgb(" + ((r / 255.0) * 100.0).toFixed(2) + "%, " + ((g / 255.0) * 100.0).toFixed(2) + "%, " + ((b / 255.0) * 100.0).toFixed(2) + "%)";
-}
-
-function toHSL(r, g, b) {
-  var max, min, h, s, l, d;
-
-  r /= 255;
-
-  g /= 255;
-
-  b /= 255;
-
-  max = Math.max(r, g, b);
-
-  min = Math.min(r, g, b);
-
-  l = (max + min) / 2;
-
-  if (max === min) {
-    h = 0;
-
-    s = 0;
-  } else {
-    d = max - min;
-
-    if (l > 0.5) {
-      s = d / (2 - max - min);
-    } else {
-      s = d / (max + min);
-    }
-
-    switch(max) {
-    case r: h = (g - b) / d + (g < b ? 6 : 0); break; // eslint-disable-line no-ternary
-    case g: h = (b - r) / d + 2; break;
-    case b: h = (r - g) / d + 4; break;
-    }
-
-    h /= 6;
-  }
-
-  return "hsl(" + (h * 360.0).toFixed(2) + ", " + (s * 100.0).toFixed(2) + "%, " + (l * 100.0).toFixed(2) + "%)";
-}
-
-function toName(r, g, b) {
-  return colorNames[toRGBHex(r, g, b)];
 }
 
 function setFavicon(r, g, b) {
