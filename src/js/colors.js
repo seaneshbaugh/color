@@ -174,26 +174,24 @@ const parseRGBHex = (hexCode) => {
 };
 
 const toHSL = (r, g, b) => {
-  var max, min, h, s, l, d;
-
   r /= 255;
 
   g /= 255;
 
   b /= 255;
 
-  max = Math.max(r, g, b);
+  const max = Math.max(r, g, b);
 
-  min = Math.min(r, g, b);
+  const min = Math.min(r, g, b);
 
-  l = (max + min) / 2;
+  let h = 0;
 
-  if (max === min) {
-    h = 0;
+  let s = 0;
 
-    s = 0;
-  } else {
-    d = max - min;
+  const l = (max + min) / 2;
+
+  if (max !== min) {
+    const d = max - min;
 
     if (l > 0.5) {
       s = d / (2 - max - min);
