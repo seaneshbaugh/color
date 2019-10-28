@@ -1,4 +1,4 @@
-import { colorNames, parseRGBHex, toHSL } from "../colors";
+import { colorNames, contrastColor, parseRGBHex, toHSL } from "../colors";
 
 describe("colorNames", () => {
   test("has black", () => {
@@ -7,6 +7,20 @@ describe("colorNames", () => {
 
   test("has white", () => {
     expect(colorNames["#ffffff"]).toEqual("white");
+  });
+});
+
+describe("contrastColor", () => {
+  test("returns black for light colors", () => {
+    expect(contrastColor(255, 255, 255)).toEqual({ r: 0, g: 0, b: 0 });
+
+    expect(contrastColor(100, 240, 210)).toEqual({ r: 0, g: 0, b: 0 });
+  });
+
+  test("returns white for light colors", () => {
+    expect(contrastColor(0, 0, 0)).toEqual({ r: 255, g: 255, b: 255 });
+
+    expect(contrastColor(110, 89, 10)).toEqual({ r: 255, g: 255, b: 255 });
   });
 });
 
@@ -24,7 +38,7 @@ describe("parseRGBHex", () => {
 
     expect(parseRGBHex("asdfghjkl")).toEqual(null);
 
-    expect(parseRGBHex("fedc")).toEqual(null);
+    expect(parseRGBHex("#fedc")).toEqual(null);
   });
 });
 
