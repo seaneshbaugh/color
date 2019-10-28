@@ -210,7 +210,7 @@ const toHSL = (r, g, b) => {
     h /= 6;
   }
 
-  return "hsl(" + (h * 360.0).toFixed(2) + ", " + (s * 100.0).toFixed(2) + "%, " + (l * 100.0).toFixed(2) + "%)";
+  return `hsl(${(h * 360.0).toFixed(2)}, ${(s * 100.0).toFixed(2)}%, ${(l * 100.0).toFixed(2)}%)`;
 };
 
 const toName = (r, g, b) => {
@@ -218,15 +218,15 @@ const toName = (r, g, b) => {
 };
 
 const toRGB = (r, g, b) => {
-  return "rgb(" + r.toString() + ", " + g.toString() + ", " + b.toString() + ")";
+  return `rgb(${r}, ${g}, ${b})`;
 };
 
 const toRGBHex = (r, g, b) => {
-  return "#" + pad(r.toString(16), 2, "0") + pad(g.toString(16), 2, "0") + pad(b.toString(16), 2, "0");
+  return `#${pad(r.toString(16), 2, "0")}${pad(g.toString(16), 2, "0")}${pad(b.toString(16), 2, "0")}`;
 };
 
 const toRGBPercent = (r, g, b) => {
-  return "rgb(" + ((r / 255.0) * 100.0).toFixed(2) + "%, " + ((g / 255.0) * 100.0).toFixed(2) + "%, " + ((b / 255.0) * 100.0).toFixed(2) + "%)";
+  return `rgb(${((r / 255.0) * 100.0).toFixed(2)}%, ${((g / 255.0) * 100.0).toFixed(2)}%, ${((b / 255.0) * 100.0).toFixed(2)}%)`;
 };
 
 export {
