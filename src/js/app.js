@@ -1,4 +1,4 @@
-import { parseRGBHex, toHSL, toName, toRGB, toRGBHex, toRGBPercent } from "./colors";
+import { contrastColor, parseRGBHex, toHSL, toName, toRGB, toRGBHex, toRGBPercent } from "./colors";
 
 onReady(function() {
   setColor(window.location.hash);
@@ -47,14 +47,6 @@ function setColor(hexCode) {
     document.title = hexCode + " - Color";
   } else {
     window.location.hash = "#ffffff";
-  }
-}
-
-function contrastColor(r, g, b) {
-  if (1 - (0.299 * r + 0.587 * g + 0.114 * b) / 255 < 0.5) {
-    return {r: 0, g: 0, b: 0};
-  } else {
-    return {r: 255, g: 255, b: 255};
   }
 }
 

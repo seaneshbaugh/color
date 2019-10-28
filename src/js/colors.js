@@ -141,6 +141,14 @@ const colorNames = {
   "#9acd32": "yellowgreen"
 };
 
+const contrastColor = (r, g, b) => {
+  if (1 - (0.299 * r + 0.587 * g + 0.114 * b) / 255 < 0.5) {
+    return {r: 0, g: 0, b: 0};
+  } else {
+    return {r: 255, g: 255, b: 255};
+  }
+};
+
 const expandRGBHex = (hexCode) => {
   if (hexCode.length === 3) {
     return `${hexCode[0]}${hexCode[0]}${hexCode[1]}${hexCode[1]}${hexCode[2]}${hexCode[2]}`;
@@ -223,6 +231,7 @@ const toRGBPercent = (r, g, b) => {
 
 export {
   colorNames,
+  contrastColor,
   parseRGBHex,
   toHSL,
   toName,
