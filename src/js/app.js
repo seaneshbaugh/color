@@ -43,9 +43,7 @@ const setColor = (hexCode) => {
 };
 
 const setFavicon = (r, g, b) => {
-  var link, canvas, context;
-
-  link = document.querySelector("link[rel~='icon']");
+  let link = document.querySelector("link[rel~='icon']");
 
   if (!link) {
     link = document.createElement("link");
@@ -55,15 +53,15 @@ const setFavicon = (r, g, b) => {
     document.head.appendChild(link);
   }
 
-  canvas = document.createElement("canvas");
+  const canvas = document.createElement("canvas");
 
   canvas.width  = 16;
 
   canvas.height = 16;
 
-  context = canvas.getContext("2d");
+  const context = canvas.getContext("2d");
 
-  context.fillStyle = "rgb(" + r + ", " + g + ", " + b + ")";
+  context.fillStyle = `rgb(${r}, ${g}, ${b})`;
 
   context.fillRect(0, 0, 16, 16);
 
@@ -74,7 +72,7 @@ const setFavicon = (r, g, b) => {
   link.href = canvas.toDataURL();
 };
 
-onReady(function() {
+onReady(() => {
   setColor(window.location.hash);
 
   window.addEventListener("hashchange", function() {
