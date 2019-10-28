@@ -1,4 +1,4 @@
-import { colorNames } from "./color-names";
+import { colorNames, parseRGBHex } from "./colors";
 
 onReady(function() {
   setColor(window.location.hash);
@@ -47,28 +47,6 @@ function setColor(hexCode) {
     document.title = hexCode + " - Color";
   } else {
     window.location.hash = "#ffffff";
-  }
-}
-
-function parseRGBHex(hexCode) {
-  var color, r, g, b;
-
-  if (hexCode && (/^#(([a-fA-F0-9]){3}){1,2}$/i).exec(hexCode)) {
-    color = hexCode.slice(1);
-
-    if (color.length < 6) {
-      color = color[0] + color[0] + color[1] + color[1] + color[2] + color[2];
-    }
-
-    r = parseInt(color.slice(0, 2), 16);
-
-    g = parseInt(color.slice(2, 4), 16);
-
-    b = parseInt(color.slice(4, 6), 16);
-
-    return {r: r, g: g, b: b};
-  } else {
-    return null;
   }
 }
 

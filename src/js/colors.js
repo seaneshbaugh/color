@@ -139,6 +139,31 @@ const colorNames = {
   "#9acd32": "yellowgreen"
 };
 
+const expandRGBHex = (hexCode) => {
+  if (hexCode.length === 3) {
+    return `${hexCode[0]}${hexCode[0]}${hexCode[1]}${hexCode[1]}${hexCode[2]}${hexCode[2]}`;
+  } else {
+    return hexCode;
+  }
+};
+
+const parseRGBHex = (hexCode) => {
+  if (!hexCode || !hexCode.match(/^#(([a-fA-F0-9]){3}){1,2}$/i)) {
+    return null;
+  }
+
+  const color = expandRGBHex(hexCode.slice(1));
+
+  const r = parseInt(color.slice(0, 2), 16);
+
+  const g = parseInt(color.slice(2, 4), 16);
+
+  const b = parseInt(color.slice(4, 6), 16);
+
+  return { r: r, g: g, b: b };
+};
+
 module.exports = {
-  colorNames
+  colorNames,
+  parseRGBHex
 };
