@@ -1,4 +1,4 @@
-import { colorNames, contrastColor, parseRGBHex, toHSL } from "../colors";
+import { colorNames, contrastColor, parseRGBHex, toHSL, toName, toRGB, toRGBHex, toRGBPercent } from "../colors";
 
 describe("colorNames", () => {
   test("has black", () => {
@@ -49,5 +49,35 @@ describe("toHSL", () => {
     expect(toHSL(0, 0, 0)).toEqual("hsl(0.00, 0.00%, 0.00%)");
 
     expect(toHSL(100, 150, 200)).toEqual("hsl(210.00, 47.62%, 58.82%)");
+  });
+});
+
+describe("toName", () => {
+  test("converts colors to their name", () => {
+    expect(toName(255, 0, 0)).toEqual("red");
+
+    expect(toName(0, 255, 0)).toEqual("lime");
+
+    expect(toName(0, 0, 255)).toEqual("blue");
+  });
+});
+
+describe("toRGB", () => {
+  test("converts colors to RGB", () => {
+    expect(toRGB(255, 0, 0)).toEqual("rgb(255, 0, 0)");
+
+    expect(toRGB(0, 255, 0)).toEqual("rgb(0, 255, 0)");
+
+    expect(toRGB(0, 0, 255)).toEqual("rgb(0, 0, 255)");
+  });
+});
+
+describe("toRGBPercent", () => {
+  test("converts colors to RGB", () => {
+    expect(toRGBPercent(255, 0, 0)).toEqual("rgb(100.00%, 0.00%, 0.00%)");
+
+    expect(toRGBPercent(0, 255, 0)).toEqual("rgb(0.00%, 100.00%, 0.00%)");
+
+    expect(toRGBPercent(0, 0, 255)).toEqual("rgb(0.00%, 0.00%, 100.00%)");
   });
 });
