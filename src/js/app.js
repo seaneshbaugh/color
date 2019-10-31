@@ -66,6 +66,14 @@ const setFavicon = (faviconColor) => {
   link.href = canvas.toDataURL();
 };
 
+const setColorpickerLabel = (backgroundColor) => {
+  const colorPickerLabel = document.querySelector(".color-picker-label");
+
+  colorPickerLabel.style.background = backgroundColor.toRGBHex();
+  colorPickerLabel.style.border = `2px solid ${backgroundColor.contrastColor().toRGBHex()}`;
+  colorPickerLabel.style.color = backgroundColor.contrastColor().toRGBHex();
+};
+
 const update = (hexCode) => {
   let backgroundColor;
 
@@ -86,12 +94,17 @@ const update = (hexCode) => {
   setBackground(backgroundColor);
   setText(backgroundColor);
   setFavicon(backgroundColor);
+  setColorpickerLabel(backgroundColor);
 };
 
 onReady(() => {
   window.addEventListener("hashchange", () => {
     update(window.location.hash);
   }, false);
+
+  document.querySelector(".color-picker").addEventListener("change", (event) => {
+    window.location.hash = event.target.value;
+  });
 
   update(window.location.hash);
 });
