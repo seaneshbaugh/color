@@ -5,9 +5,7 @@ const pad = (original, length, padString) => {
     padString += "";
   }
 
-  let padding;
-
-  padding = "";
+  let padding = "";
 
   if (original.length < length) {
     while (padding.length < length - original.length) {

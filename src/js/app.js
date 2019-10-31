@@ -1,4 +1,6 @@
-import { contrastColor, parseRGBHex, toHSL, toName, toRGB, toRGBHex, toRGBPercent } from "./colors";
+import { Color, RGBHexParseError } from "./color";
+
+const DEFAULT_COLOR = "#ffffff";
 
 const onReady = (completed) => {
   if (document.readyState === "complete") {
@@ -8,41 +10,33 @@ const onReady = (completed) => {
   }
 };
 
-const setColor = (hexCode) => {
-  const backgroundColor = parseRGBHex(hexCode);
-
-  if (!backgroundColor) {
-    window.location.hash = "#ffffff";
-
-    return;
-  }
-
-  document.querySelector("body").style.background = hexCode;
-
-  let textColor = contrastColor(backgroundColor.r, backgroundColor.g, backgroundColor.b);
-
-  textColor = toRGBHex(textColor.r, textColor.g, textColor.b);
-
-  document.querySelectorAll(".color-text").forEach((colorText) => {
-    colorText.style.color = textColor;
-  });
-
-  document.querySelector(".rgb-hex").textContent = hexCode;
-
-  document.querySelector(".rgb").textContent = toRGB(backgroundColor.r, backgroundColor.g, backgroundColor.b);
-
-  document.querySelector(".rgb-percent").textContent = toRGBPercent(backgroundColor.r, backgroundColor.g, backgroundColor.b);
-
-  document.querySelector(".hsl").textContent = toHSL(backgroundColor.r, backgroundColor.g, backgroundColor.b);
-
-  document.querySelector(".name").textContent = toName(backgroundColor.r, backgroundColor.g, backgroundColor.b) || "";
-
-  setFavicon(backgroundColor.r, backgroundColor.g, backgroundColor.b);
-
-  document.title = `${hexCode} - Color`;
+const setBackground = (backgroundColor) => {
+  document.querySelector("body").style.background = backgroundColor.toRGBHex();
 };
 
-const setFavicon = (r, g, b) => {
+const setText = (backgroundColor) => {
+  const textColorRGBHex = backgroundColor.contrastColor().toRGBHex();
+
+  document.querySelectorAll(".color-text").forEach((colorText) => {
+    colorText.style.color = textColorRGBHex;
+  });
+
+  const backgroundColorRGBHex = backgroundColor.toRGBHex();
+
+  document.querySelector(".rgb-hex").textContent = backgroundColorRGBHex;
+
+  document.querySelector(".rgb").textContent = backgroundColor.toRGB();
+
+  document.querySelector(".rgb-percent").textContent = backgroundColor.toRGBPercent();
+
+  document.querySelector(".hsl").textContent = backgroundColor.toHSL();
+
+  document.querySelector(".name").textContent = backgroundColor.toName() || "";
+
+  document.title = `${backgroundColorRGBHex} - Color`;
+};
+
+const setFavicon = (faviconColor) => {
   let link = document.querySelector("link[rel~='icon']");
 
   if (!link) {
@@ -61,7 +55,7 @@ const setFavicon = (r, g, b) => {
 
   const context = canvas.getContext("2d");
 
-  context.fillStyle = `rgb(${r}, ${g}, ${b})`;
+  context.fillStyle = faviconColor.toRGB();
 
   context.fillRect(0, 0, 16, 16);
 
@@ -72,10 +66,28 @@ const setFavicon = (r, g, b) => {
   link.href = canvas.toDataURL();
 };
 
-onReady(() => {
-  setColor(window.location.hash);
+const update = (hexCode) => {
+  let backgroundColor;
 
-  window.addEventListener("hashchange", function() {
-    setColor(window.location.hash);
+  try {
+    backgroundColor = new Color(hexCode);
+  } catch (error) {
+    if (error instanceof RGBHexParseError) {
+      window.location.hash = DEFAULT_COLOR;
+    } else {
+      throw error;
+    }
+  }
+
+  setBackground(backgroundColor);
+  setText(backgroundColor);
+  setFavicon(backgroundColor);
+};
+
+onReady(() => {
+  window.addEventListener("hashchange", () => {
+    update(window.location.hash);
   }, false);
+
+  update(window.location.hash);
 });

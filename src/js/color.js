@@ -1,5 +1,59 @@
 import pad from "./pad";
 
+class ColorArgumentError extends Error {
+  constructor(message, ...args) {
+    super(message, ...args);
+
+    this.name = "ColorArgumentError";
+  }
+}
+
+class RGBHexParseError extends Error {
+  constructor(hexCode) {
+    super(`"${hexCode}" is not a valid RGB hex code`);
+
+    this.name = "RGBHexParseError";
+  }
+}
+
+const expandRGBHex = (hexCode) => {
+  if (hexCode.length === 3) {
+    return `${hexCode[0]}${hexCode[0]}${hexCode[1]}${hexCode[1]}${hexCode[2]}${hexCode[2]}`;
+  } else {
+    return hexCode;
+  }
+};
+
+const parseRGBHex = (hexCode) => {
+  if (!hexCode || !hexCode.match(/^#(([a-fA-F0-9]){3}){1,2}$/i)) {
+    throw new RGBHexParseError(hexCode);
+  }
+
+  const color = expandRGBHex(hexCode.slice(1));
+
+  const r = parseInt(color.slice(0, 2), 16);
+
+  const g = parseInt(color.slice(2, 4), 16);
+
+  const b = parseInt(color.slice(4, 6), 16);
+
+  return { r, g, b };
+};
+
+const parseRGB = (r, g, b) => {
+  r = parseInt(r);
+
+  g = parseInt(g);
+
+  b = parseInt(b);
+
+  if (isNaN(r) || isNaN(r) || isNaN(r) || r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255) {
+    throw new ColorArgumentError("Expected three numbers between 0 and 255");
+  }
+
+  return { r, g, b };
+};
+
 const colorNames = {
   "#f0f8ff": "aliceblue",
   "#faebd7": "antiquewhite",
@@ -141,99 +195,94 @@ const colorNames = {
   "#9acd32": "yellowgreen"
 };
 
-const contrastColor = (r, g, b) => {
-  if (1 - (0.299 * r + 0.587 * g + 0.114 * b) / 255 < 0.5) {
-    return { r: 0, g: 0, b: 0 };
-  } else {
-    return { r: 255, g: 255, b: 255 };
+class Color {
+  constructor(...args) {
+    switch(args.length) {
+    case 1:
+      switch(typeof(args[0])) {
+      case "string":
+        ({ r: this.r, g: this.g, b: this.b } = parseRGBHex(args[0]));
+
+        break;
+      case "object":
+        ({ r: this.r, g: this.g, b: this.b } = parseRGB(args[0].r, args[0].g, args[0].b));
+
+        break;
+      default:
+        throw new ColorArgumentError("Expected either a RGB hex string or an object with r, g, and b properties");
+      }
+
+      break;
+    case 3:
+      ({ r: this.r, g: this.g, b: this.b } = parseRGB(args[0], args[1], args[2]));
+
+      break;
+    default:
+      throw new ColorArgumentError(`Wrong number of arguments, expected 1 or 3 but got ${args.length}`);
+    }
   }
-};
 
-const expandRGBHex = (hexCode) => {
-  if (hexCode.length === 3) {
-    return `${hexCode[0]}${hexCode[0]}${hexCode[1]}${hexCode[1]}${hexCode[2]}${hexCode[2]}`;
-  } else {
-    return hexCode;
-  }
-};
-
-const parseRGBHex = (hexCode) => {
-  if (!hexCode || !hexCode.match(/^#(([a-fA-F0-9]){3}){1,2}$/i)) {
-    return null;
-  }
-
-  const color = expandRGBHex(hexCode.slice(1));
-
-  const r = parseInt(color.slice(0, 2), 16);
-
-  const g = parseInt(color.slice(2, 4), 16);
-
-  const b = parseInt(color.slice(4, 6), 16);
-
-  return { r, g, b };
-};
-
-const toHSL = (r, g, b) => {
-  r /= 255;
-
-  g /= 255;
-
-  b /= 255;
-
-  const max = Math.max(r, g, b);
-
-  const min = Math.min(r, g, b);
-
-  let h = 0;
-
-  let s = 0;
-
-  const l = (max + min) / 2;
-
-  if (max !== min) {
-    const d = max - min;
-
-    if (l > 0.5) {
-      s = d / (2 - max - min);
+  contrastColor() {
+    if (1 - (0.299 * this.r + 0.587 * this.g + 0.114 * this.b) / 255 < 0.5) {
+      return new Color(0, 0, 0);
     } else {
-      s = d / (max + min);
+      return new Color(255, 255, 255);
     }
-
-    switch(max) {
-    case r: h = (g - b) / d + (g < b ? 6 : 0); break; // eslint-disable-line no-ternary
-    case g: h = (b - r) / d + 2; break;
-    case b: h = (r - g) / d + 4; break;
-    }
-
-    h /= 6;
   }
 
-  return `hsl(${(h * 360.0).toFixed(2)}, ${(s * 100.0).toFixed(2)}%, ${(l * 100.0).toFixed(2)}%)`;
-};
+  toHSL() {
+    const r = this.r / 255;
 
-const toName = (r, g, b) => {
-  return colorNames[toRGBHex(r, g, b)];
-};
+    const g = this.g / 255;
 
-const toRGB = (r, g, b) => {
-  return `rgb(${r}, ${g}, ${b})`;
-};
+    const b = this.b / 255;
 
-const toRGBHex = (r, g, b) => {
-  return `#${pad(r.toString(16), 2, "0")}${pad(g.toString(16), 2, "0")}${pad(b.toString(16), 2, "0")}`;
-};
+    const max = Math.max(r, g, b);
 
-const toRGBPercent = (r, g, b) => {
-  return `rgb(${((r / 255.0) * 100.0).toFixed(2)}%, ${((g / 255.0) * 100.0).toFixed(2)}%, ${((b / 255.0) * 100.0).toFixed(2)}%)`;
-};
+    const min = Math.min(r, g, b);
 
-export {
-  colorNames,
-  contrastColor,
-  parseRGBHex,
-  toHSL,
-  toName,
-  toRGB,
-  toRGBHex,
-  toRGBPercent
-};
+    let h = 0;
+
+    let s = 0;
+
+    const l = (max + min) / 2;
+
+    if (max !== min) {
+      const d = max - min;
+
+      if (l > 0.5) {
+        s = d / (2 - max - min);
+      } else {
+        s = d / (max + min);
+      }
+
+      switch(max) {
+      case r: h = (g - b) / d + (g < b ? 6 : 0); break; // eslint-disable-line no-ternary
+      case g: h = (b - r) / d + 2; break;
+      case b: h = (r - g) / d + 4; break;
+      }
+
+      h /= 6;
+    }
+
+    return `hsl(${(h * 360.0).toFixed(2)}, ${(s * 100.0).toFixed(2)}%, ${(l * 100.0).toFixed(2)}%)`;
+  }
+
+  toName() {
+    return colorNames[this.toRGBHex()];
+  }
+
+  toRGB() {
+    return `rgb(${this.r}, ${this.g}, ${this.b})`;
+  }
+
+  toRGBHex() {
+    return `#${pad(this.r.toString(16), 2, "0")}${pad(this.g.toString(16), 2, "0")}${pad(this.b.toString(16), 2, "0")}`;
+  }
+
+  toRGBPercent() {
+    return `rgb(${((this.r / 255.0) * 100.0).toFixed(2)}%, ${((this.g / 255.0) * 100.0).toFixed(2)}%, ${((this.b / 255.0) * 100.0).toFixed(2)}%)`;
+  }
+}
+
+export { Color, ColorArgumentError, RGBHexParseError };
