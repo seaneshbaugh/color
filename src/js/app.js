@@ -79,6 +79,10 @@ const update = (hexCode) => {
     }
   }
 
+  if (!backgroundColor) {
+    return;
+  }
+
   setBackground(backgroundColor);
   setText(backgroundColor);
   setFavicon(backgroundColor);
