@@ -10,6 +10,7 @@ html, body {
     font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif;
     font-size: 36px;
     letter-spacing: 10px;
+    min-height: 44.5px;
     text-align: center;
 
     &::selection {
@@ -35,6 +36,10 @@ html, body {
     text-align: center;
     vertical-align: middle;
     width: 4rem;
+
+    &::selection {
+        background: transparent;
+    }
 
     .color-picker {
         display: none;
